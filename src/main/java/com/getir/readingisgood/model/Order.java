@@ -1,0 +1,36 @@
+package com.getir.readingisgood.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Document(collection = "Order")
+public class Order {
+    @Transient
+    public static final String SEQUENCE_NAME = "SEQ_ORDER";
+
+    @Id
+    private long id;
+
+    private long customerId;
+
+    private BigDecimal totalAmount;
+
+    private Date startDate;
+
+    private Date endDate;
+
+    private long orderLongUx;
+
+}
