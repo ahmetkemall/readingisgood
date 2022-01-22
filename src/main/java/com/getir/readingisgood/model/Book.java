@@ -8,7 +8,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -23,8 +22,8 @@ public class Book {
     @Id
     private long id;
 
-    // TODO: 22/01/2022 validations 
-    @Size(max=200)//todo handle
+    // TODO: 22/01/2022 validations
+    @Size(max = 200)//todo handle
     private String name;
 
     private int count;
