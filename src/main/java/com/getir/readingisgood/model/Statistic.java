@@ -22,7 +22,6 @@ public class Statistic {
 
     private int totalOrderCount;
     private int totalBookCount;
-
     private BigDecimal totalAmount;
 
 }
