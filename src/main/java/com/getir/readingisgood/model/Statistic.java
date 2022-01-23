@@ -21,16 +21,16 @@ public class Statistic {
     @Id
     private String date;
 
+    private int totalOrderCount;
+    private int totalBookCount;
+    private BigDecimal totalAmount;
+
     public Statistic(String date, int totalOrderCount, int totalBookCount, BigDecimal totalAmount) {
         this.date = date;
         this.totalOrderCount = totalOrderCount;
         this.totalBookCount = totalBookCount;
         this.totalAmount = totalAmount;
     }
-
-    private int totalOrderCount;
-    private int totalBookCount;
-    private BigDecimal totalAmount;
 
     @Version
     private Long version;
