@@ -67,7 +67,15 @@ public class OrderService {
                 .sum();
 
         BigDecimal totalPrice = getTotalPrice(orderItems);
-        statisticService.updateStatistics(1, totalBookCount, totalPrice);
+        updateStatistics(totalBookCount, totalPrice);
+    }
+
+    private void updateStatistics(int totalBookCount, BigDecimal totalPrice) {
+        try {
+            statisticService.updateStatistics(1, totalBookCount, totalPrice);
+        } catch (OptimisticLockingFailureException e) {
+            statisticService.updateStatistics(1, totalBookCount, totalPrice);
+        }
     }
 
     private BigDecimal getTotalPrice(List<OrderItemRequestDto> orderItems) {

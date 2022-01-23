@@ -19,7 +19,14 @@ import java.util.Date;
 public class Statistic {
 
     @Id
-    private Date date;
+    private String date;
+
+    public Statistic(String date, int totalOrderCount, int totalBookCount, BigDecimal totalAmount) {
+        this.date = date;
+        this.totalOrderCount = totalOrderCount;
+        this.totalBookCount = totalBookCount;
+        this.totalAmount = totalAmount;
+    }
 
     private int totalOrderCount;
     private int totalBookCount;
@@ -28,4 +35,15 @@ public class Statistic {
     @Version
     private Long version;
 
+    public void addTotalAmount(BigDecimal totalPrice) {
+        totalAmount = totalAmount.add(totalPrice);
+    }
+
+    public void addTotalBookCount(int totalBookCount) {
+        setTotalBookCount(getTotalBookCount() + totalBookCount);
+    }
+
+    public void addTotalOrderCount(int orderCount) {
+        setTotalOrderCount(getTotalOrderCount() + orderCount);
+    }
 }
