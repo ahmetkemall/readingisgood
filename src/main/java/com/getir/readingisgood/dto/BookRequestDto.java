@@ -22,6 +22,7 @@ public class BookRequestDto {
     @Max(9999)
     private int stockCount;
 
+    @NotNull
     @DecimalMin(value = "1")
     private BigDecimal price;
 }

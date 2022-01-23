@@ -1,14 +1,23 @@
 package com.getir.readingisgood.dto;
 
-import com.getir.readingisgood.model.Order;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Getter
 @Setter
 public class OrderResponseDto {
 
-    private List<Order> orderList;
+    private long customerId;
+
+    private BigDecimal totalAmount;
+
+    private Date startDate;
+
+    private Date endDate;
+
+    private long orderLongUx;
+
 }

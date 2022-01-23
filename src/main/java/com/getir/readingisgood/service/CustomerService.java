@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
@@ -32,5 +34,9 @@ public class CustomerService {
         return CustomerResponseDto.builder()
                 .customers(customerRepository.findAll())
                 .build();
+    }
+
+    public Optional<Customer> findById(long customerId) {
+        return customerRepository.findById(customerId);
     }
 }

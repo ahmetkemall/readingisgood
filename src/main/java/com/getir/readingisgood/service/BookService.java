@@ -2,6 +2,7 @@ package com.getir.readingisgood.service;
 
 import com.getir.readingisgood.dto.BookRequestDto;
 import com.getir.readingisgood.dto.BookUpdateRequestDto;
+import com.getir.readingisgood.dto.OrderItemRequestDto;
 import com.getir.readingisgood.exception.BookNotFoundException;
 import com.getir.readingisgood.mapper.BookMapper;
 import com.getir.readingisgood.model.Book;
@@ -41,5 +42,12 @@ public class BookService {
 
     public List<Book> findAll() {
         return bookRepository.findAll();
+    }
+
+    public List<Book> findByIds(List<Long> bookIdList) {
+        return bookRepository.findByIdIn(bookIdList);
+    }
+
+    public void updateStock(List<OrderItemRequestDto> orderItems) {
     }
 }

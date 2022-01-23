@@ -8,7 +8,6 @@ import com.getir.readingisgood.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,7 +26,7 @@ public class BookController {
     }
 
     @PutMapping("/{bookId}")
-    public void updateBook(@PathVariable Long bookId,@RequestBody @Validated BookUpdateRequestDto bookRequestDto)
+    public void updateBook(@PathVariable Long bookId, @RequestBody @Valid BookUpdateRequestDto bookRequestDto)
             throws BookNotFoundException {
         bookService.update(bookId, bookRequestDto);
     }

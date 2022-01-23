@@ -23,10 +23,9 @@ public class OrderItem {
     @Id
     private Long id;
 
+    private Long orderId;
     private long bookId;
-
     private int count;
-
     private BigDecimal totalAmount;
 
 }
