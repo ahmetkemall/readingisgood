@@ -21,7 +21,7 @@ public class Order {
     public static final String SEQUENCE_NAME = "SEQ_ORDER";
 
     @Id
-    private long id;
+    private Long id;
 
     private long customerId;
 

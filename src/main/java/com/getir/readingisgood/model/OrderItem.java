@@ -21,7 +21,7 @@ public class OrderItem {
     public static final String SEQUENCE_NAME = "SEQ_ORDER_ITEM";
 
     @Id
-    private long id;
+    private Long id;
 
     private long bookId;
 

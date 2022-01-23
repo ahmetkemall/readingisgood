@@ -3,11 +3,13 @@ package com.getir.readingisgood.controller;
 import com.getir.readingisgood.dto.OrderDetailResponseDto;
 import com.getir.readingisgood.dto.OrderRequestDto;
 import com.getir.readingisgood.dto.OrderResponseDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/order")
 public class OrderController {
 

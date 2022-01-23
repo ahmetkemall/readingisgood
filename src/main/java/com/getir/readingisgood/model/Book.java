@@ -20,7 +20,7 @@ public class Book {
     public static final String SEQUENCE_NAME = "SEQ_BOOK";
 
     @Id
-    private long id;
+    private Long id;
 
     // TODO: 22/01/2022 validations
     @Size(max = 200)//todo handle
