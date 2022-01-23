@@ -1,5 +1,6 @@
 package com.getir.readingisgood.mapper;
 
+import com.getir.readingisgood.dto.OrderDetailResponseDto;
 import com.getir.readingisgood.dto.OrderRequestDto;
 import com.getir.readingisgood.model.Order;
 import org.mapstruct.Mapper;
@@ -7,4 +8,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
     Order map(OrderRequestDto dto);
+
+    OrderDetailResponseDto map(Order order);
 }

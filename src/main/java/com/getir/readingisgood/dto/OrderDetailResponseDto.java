@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,5 +25,7 @@ public class OrderDetailResponseDto {
     private Date endDate;
 
     private long orderLongUx;
+
+    private List<OrderItemDetailResponseDto> orderItems;
 
 }

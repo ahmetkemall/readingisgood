@@ -1,6 +1,7 @@
 package com.getir.readingisgood.service;
 
 
+import com.getir.readingisgood.dto.OrderItemDetailResponseDto;
 import com.getir.readingisgood.dto.OrderItemRequestDto;
 import com.getir.readingisgood.mapper.OrderItemMapper;
 import com.getir.readingisgood.model.OrderItem;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -29,4 +32,8 @@ public class OrderItemService {
         orderItemRepository.save(orderItem);
     }
 
+    public List<OrderItemDetailResponseDto> findByOrderItem(Long orderId) {
+        List<OrderItem> orderItems = orderItemRepository.findByOrderId(orderId);
+        return orderItems.stream().map(orderItemMapper::map).collect(toList());
+    }
 }

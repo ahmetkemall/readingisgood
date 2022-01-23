@@ -1,9 +1,11 @@
 package com.getir.readingisgood.controller;
 
 import com.getir.readingisgood.dto.OrderDetailResponseDto;
+import com.getir.readingisgood.dto.OrderPlaceResponseDto;
 import com.getir.readingisgood.dto.OrderRequestDto;
 import com.getir.readingisgood.exception.CustomerNotFoundException;
 import com.getir.readingisgood.exception.NoStockException;
+import com.getir.readingisgood.exception.NotFoundException;
 import com.getir.readingisgood.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,14 +23,15 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public void placeOrder(@RequestBody @Valid OrderRequestDto orderRequestDto)
+    public ResponseEntity<OrderPlaceResponseDto> placeOrder(@RequestBody @Valid OrderRequestDto orderRequestDto)
             throws CustomerNotFoundException, NoStockException {
-        orderService.placeOrder(orderRequestDto);
+        OrderPlaceResponseDto dto = orderService.placeOrder(orderRequestDto);
+        return new ResponseEntity<>(dto, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<OrderDetailResponseDto> getOrderDetail(@PathVariable Long orderId) {
-        OrderDetailResponseDto dto = OrderDetailResponseDto.builder().id(orderId).build();
+    public ResponseEntity<OrderDetailResponseDto> getOrderDetail(@PathVariable Long orderId) throws NotFoundException {
+        OrderDetailResponseDto dto = orderService.findById(orderId);
         return new ResponseEntity<>(dto, HttpStatus.ACCEPTED);
     }
 

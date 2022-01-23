@@ -1,9 +1,12 @@
 package com.getir.readingisgood.service;
 
+import com.getir.readingisgood.dto.OrderDetailResponseDto;
 import com.getir.readingisgood.dto.OrderItemRequestDto;
+import com.getir.readingisgood.dto.OrderPlaceResponseDto;
 import com.getir.readingisgood.dto.OrderRequestDto;
 import com.getir.readingisgood.exception.CustomerNotFoundException;
 import com.getir.readingisgood.exception.NoStockException;
+import com.getir.readingisgood.exception.NotFoundException;
 import com.getir.readingisgood.mapper.OrderMapper;
 import com.getir.readingisgood.model.Book;
 import com.getir.readingisgood.model.Order;
@@ -33,7 +36,7 @@ public class OrderService {
     private final CustomerService customerService;
 
     @Transactional
-    public void placeOrder(OrderRequestDto orderRequestDto) throws CustomerNotFoundException, NoStockException {
+    public OrderPlaceResponseDto placeOrder(OrderRequestDto orderRequestDto) throws CustomerNotFoundException, NoStockException {
         Long id = sequenceGeneratorService.generateSequence(Order.SEQUENCE_NAME);
 
         validate(orderRequestDto.getCustomerId());
@@ -42,6 +45,7 @@ public class OrderService {
         persistItems(orderRequestDto, id);
         updateStatistics(orderRequestDto.getOrderItems());
 
+        return OrderPlaceResponseDto.builder().orderId(id).build();
     }
 
     private void validate(long customerId) throws CustomerNotFoundException {
@@ -109,5 +113,12 @@ public class OrderService {
         Order order = orderMapper.map(orderRequestDto);
         order.setId(id);
         orderRepository.save(order);
+    }
+
+    public OrderDetailResponseDto findById(Long orderId) throws NotFoundException {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new NotFoundException(orderId));
+        OrderDetailResponseDto orderDetailResponseDto = orderMapper.map(order);
+        orderDetailResponseDto.setOrderItems(orderItemService.findByOrderItem(orderId));
+        return orderDetailResponseDto;
     }
 }
