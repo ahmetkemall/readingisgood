@@ -9,6 +9,8 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,6 +26,8 @@ public class Book {
     private String name;
 
     private int stockCount;
+
+    private BigDecimal price;
 
     @Version
     private Long version;

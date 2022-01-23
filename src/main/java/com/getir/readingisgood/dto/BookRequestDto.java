@@ -5,10 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -24,4 +22,6 @@ public class BookRequestDto {
     @Max(9999)
     private int stockCount;
 
+    @DecimalMin(value = "1")
+    private BigDecimal price;
 }
