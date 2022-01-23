@@ -46,6 +46,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(NoStockException.class)
+    public ResponseEntity<ErrorDetails> noStockExceptionException(NoStockException ex) {
+        ErrorDetails errorDetails = ErrorDetails
+                .builder()
+                .errorCode(3)
+                .timestamp(new Date())
+                .message(ex.getMessage())
+                .build();
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDetails> globalExceptionHandler(Exception ex) {
         ErrorDetails errorDetails = ErrorDetails

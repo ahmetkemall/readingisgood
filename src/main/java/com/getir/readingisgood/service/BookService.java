@@ -4,8 +4,10 @@ import com.getir.readingisgood.dto.BookRequestDto;
 import com.getir.readingisgood.dto.BookUpdateRequestDto;
 import com.getir.readingisgood.dto.OrderItemRequestDto;
 import com.getir.readingisgood.exception.BookNotFoundException;
+import com.getir.readingisgood.exception.NoStockException;
 import com.getir.readingisgood.mapper.BookMapper;
 import com.getir.readingisgood.model.Book;
+import com.getir.readingisgood.model.OrderItem;
 import com.getir.readingisgood.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -48,6 +50,14 @@ public class BookService {
         return bookRepository.findByIdIn(bookIdList);
     }
 
-    public void updateStock(List<OrderItemRequestDto> orderItems) {
+    public void updateStock(OrderItemRequestDto dto) throws NoStockException {
+        Book book = bookRepository.findById(dto.getBookId()).orElse(null);
+        if (book == null)
+            return;
+        if(book.getStockCount() - dto.getCount() < 1)
+            throw new NoStockException(book.getId());
+
+        book.takeStock(dto.getCount());
+        bookRepository.save(book);
     }
 }

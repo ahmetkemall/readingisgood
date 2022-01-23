@@ -3,11 +3,13 @@ package com.getir.readingisgood.service;
 import com.getir.readingisgood.dto.OrderItemRequestDto;
 import com.getir.readingisgood.dto.OrderRequestDto;
 import com.getir.readingisgood.exception.CustomerNotFoundException;
+import com.getir.readingisgood.exception.NoStockException;
 import com.getir.readingisgood.mapper.OrderMapper;
 import com.getir.readingisgood.model.Book;
 import com.getir.readingisgood.model.Order;
 import com.getir.readingisgood.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +33,7 @@ public class OrderService {
     private final CustomerService customerService;
 
     @Transactional
-    public void placeOrder(OrderRequestDto orderRequestDto) throws CustomerNotFoundException {
+    public void placeOrder(OrderRequestDto orderRequestDto) throws CustomerNotFoundException, NoStockException {
         Long id = sequenceGeneratorService.generateSequence(Order.SEQUENCE_NAME);
 
         validate(orderRequestDto.getCustomerId());
@@ -46,8 +48,17 @@ public class OrderService {
         customerService.findById(customerId).orElseThrow(() -> new CustomerNotFoundException(customerId));
     }
 
-    private void updateStock(List<OrderItemRequestDto> orderItems) {
-        bookService.updateStock(orderItems);
+    private void updateStock(List<OrderItemRequestDto> orderItems) throws NoStockException {
+        for (OrderItemRequestDto dto : orderItems)
+            updateStock(dto);
+    }
+
+    private void updateStock(OrderItemRequestDto dto) throws NoStockException {
+        try {
+            bookService.updateStock(dto);
+        } catch (OptimisticLockingFailureException e) {
+            bookService.updateStock(dto);
+        }
     }
 
     private void updateStatistics(List<OrderItemRequestDto> orderItems) {

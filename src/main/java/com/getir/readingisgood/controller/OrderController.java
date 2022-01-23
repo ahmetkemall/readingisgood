@@ -3,6 +3,7 @@ package com.getir.readingisgood.controller;
 import com.getir.readingisgood.dto.OrderDetailResponseDto;
 import com.getir.readingisgood.dto.OrderRequestDto;
 import com.getir.readingisgood.exception.CustomerNotFoundException;
+import com.getir.readingisgood.exception.NoStockException;
 import com.getir.readingisgood.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,8 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public void placeOrder(@RequestBody @Valid OrderRequestDto orderRequestDto) throws CustomerNotFoundException {
+    public void placeOrder(@RequestBody @Valid OrderRequestDto orderRequestDto)
+            throws CustomerNotFoundException, NoStockException {
         orderService.placeOrder(orderRequestDto);
     }
 

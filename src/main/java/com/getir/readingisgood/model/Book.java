@@ -31,4 +31,8 @@ public class Book {
 
     @Version
     private Long version;
+
+    public void takeStock(Integer count) {
+        setStockCount(stockCount - count);
+    }
 }
