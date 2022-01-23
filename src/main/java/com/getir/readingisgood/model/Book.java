@@ -6,9 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -22,9 +21,10 @@ public class Book {
     @Id
     private Long id;
 
-    // TODO: 22/01/2022 validations
-    @Size(max = 200)//todo handle
     private String name;
 
-    private int count;
+    private int stockCount;
+
+    @Version
+    private Long version;
 }
