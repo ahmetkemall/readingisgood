@@ -19,13 +19,13 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<OrderDetailResponseDto> getOrderDetail(@PathVariable Long orderId){
+    public ResponseEntity<OrderDetailResponseDto> getOrderDetail(@PathVariable Long orderId) {
         OrderDetailResponseDto dto = OrderDetailResponseDto.builder().id(orderId).build();
         return new ResponseEntity<>(dto, HttpStatus.ACCEPTED);
     }
 
     @GetMapping
-    public ResponseEntity<OrderResponseDto> getOrders(){
+    public ResponseEntity<OrderResponseDto> getOrders() {
         OrderResponseDto dto = new OrderResponseDto();
         return new ResponseEntity<>(dto, HttpStatus.ACCEPTED);
     }

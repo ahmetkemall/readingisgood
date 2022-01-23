@@ -28,7 +28,7 @@ public class Customer {
     private String name;
 
     @NotBlank
-    @Size(max=100)
+    @Size(max = 100)
     @Indexed(unique = true)
     private String email;
 

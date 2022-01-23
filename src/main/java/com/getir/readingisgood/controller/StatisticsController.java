@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class StatisticsController {
 
     @GetMapping
-    public ResponseEntity<StatisticsDto> getStatistics(){
+    public ResponseEntity<StatisticsDto> getStatistics() {
         StatisticsDto dto = new StatisticsDto();
         return new ResponseEntity<>(dto, HttpStatus.ACCEPTED);
     }
-
 
 
 }

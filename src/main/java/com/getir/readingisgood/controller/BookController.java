@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
 
     @PostMapping
-    public ResponseEntity<Void> persistBook(BookRequestDto bookRequestDto){
+    public ResponseEntity<Void> persistBook(BookRequestDto bookRequestDto) {
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping
-    public ResponseEntity<Void> updateBook(BookRequestDto bookRequestDto){
+    public ResponseEntity<Void> updateBook(BookRequestDto bookRequestDto) {
         return ResponseEntity.noContent().build();
     }
 }
