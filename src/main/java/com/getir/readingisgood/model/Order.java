@@ -25,12 +25,16 @@ public class Order {
 
     private long customerId;
 
-    private BigDecimal totalAmount;
-
     private Date startDate;
 
     private Date endDate;
 
     private long orderLongUx;
 
+    public long getUnixDateDiff() {
+        if(startDate == null || endDate == null)
+            return 0;
+
+        return endDate.getTime() - startDate.getTime();
+    }
 }

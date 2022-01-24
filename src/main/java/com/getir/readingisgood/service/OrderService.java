@@ -5,6 +5,7 @@ import com.getir.readingisgood.dto.OrderItemRequestDto;
 import com.getir.readingisgood.dto.OrderPlaceResponseDto;
 import com.getir.readingisgood.dto.OrderRequestDto;
 import com.getir.readingisgood.exception.CustomerNotFoundException;
+import com.getir.readingisgood.exception.InvalidRequestException;
 import com.getir.readingisgood.exception.NoStockException;
 import com.getir.readingisgood.exception.NotFoundException;
 import com.getir.readingisgood.mapper.OrderMapper;
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -36,10 +38,10 @@ public class OrderService {
     private final CustomerService customerService;
 
     @Transactional
-    public OrderPlaceResponseDto placeOrder(OrderRequestDto orderRequestDto) throws CustomerNotFoundException, NoStockException {
+    public OrderPlaceResponseDto placeOrder(OrderRequestDto orderRequestDto) throws CustomerNotFoundException, NoStockException, InvalidRequestException {
         Long id = sequenceGeneratorService.generateSequence(Order.SEQUENCE_NAME);
 
-        validate(orderRequestDto.getCustomerId());
+        validate(orderRequestDto);
         updateStock(orderRequestDto.getOrderItems());
         persistOrder(orderRequestDto, id);
         persistItems(orderRequestDto, id);
@@ -48,8 +50,12 @@ public class OrderService {
         return OrderPlaceResponseDto.builder().orderId(id).build();
     }
 
-    private void validate(long customerId) throws CustomerNotFoundException {
-        customerService.findById(customerId).orElseThrow(() -> new CustomerNotFoundException(customerId));
+    private void validate(OrderRequestDto dto) throws CustomerNotFoundException, InvalidRequestException {
+        if(dto.getEndDate().before(dto.getStartDate())
+            || dto.getEndDate().equals(dto.getStartDate()))
+            throw new InvalidRequestException("EndDate should be after the StartDate");
+
+        customerService.findById(dto.getCustomerId()).orElseThrow(() -> new CustomerNotFoundException(dto.getCustomerId()));
     }
 
     private void updateStock(List<OrderItemRequestDto> orderItems) throws NoStockException {
@@ -112,13 +118,34 @@ public class OrderService {
     private void persistOrder(OrderRequestDto orderRequestDto, Long id) {
         Order order = orderMapper.map(orderRequestDto);
         order.setId(id);
+        order.setOrderLongUx(order.getUnixDateDiff());
         orderRepository.save(order);
     }
 
     public OrderDetailResponseDto findById(Long orderId) throws NotFoundException {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new NotFoundException(orderId));
+        return convertOrder(order);
+    }
+
+    private OrderDetailResponseDto convertOrder(Order order) {
         OrderDetailResponseDto orderDetailResponseDto = orderMapper.map(order);
-        orderDetailResponseDto.setOrderItems(orderItemService.findByOrderItem(orderId));
+        orderDetailResponseDto.setOrderItems(orderItemService.findByOrderItem(order.getId()));
         return orderDetailResponseDto;
+    }
+
+    public List<OrderDetailResponseDto> findAll(){
+        List<Order> orders = orderRepository.findAllByOrderByOrderLongUxAsc();
+
+        return orders.stream()
+                .map(this::convertOrder)
+                .collect(Collectors.toList());
+    }
+
+    public List<OrderDetailResponseDto>  findByCustomerId(Long customerId) {
+        List<Order> orders = orderRepository.findByCustomerId(customerId);
+
+        return orders.stream()
+                .map(this::convertOrder)
+                .collect(Collectors.toList());
     }
 }

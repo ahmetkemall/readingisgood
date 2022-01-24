@@ -25,7 +25,7 @@ public class StatisticService {
 
         Statistic statistic = statisticRepository.findById(date).orElse(null);
 
-        if(statistic == null){
+        if (statistic == null) {
             statistic = new Statistic(date, orderCount, totalBookCount, totalPrice);
         } else {
             statistic.addTotalAmount(totalPrice);

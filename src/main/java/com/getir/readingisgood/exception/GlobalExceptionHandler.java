@@ -67,6 +67,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(InvalidRequestException.class)
+    public ResponseEntity<ErrorDetails> invalidRequestException(InvalidRequestException ex) {
+        ErrorDetails errorDetails = ErrorDetails
+                .builder()
+                .errorCode(8)
+                .timestamp(new Date())
+                .message(ex.getMessage())
+                .build();
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDetails> globalExceptionHandler(Exception ex) {
         ErrorDetails errorDetails = ErrorDetails

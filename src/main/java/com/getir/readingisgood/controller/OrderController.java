@@ -4,6 +4,7 @@ import com.getir.readingisgood.dto.OrderDetailResponseDto;
 import com.getir.readingisgood.dto.OrderPlaceResponseDto;
 import com.getir.readingisgood.dto.OrderRequestDto;
 import com.getir.readingisgood.exception.CustomerNotFoundException;
+import com.getir.readingisgood.exception.InvalidRequestException;
 import com.getir.readingisgood.exception.NoStockException;
 import com.getir.readingisgood.exception.NotFoundException;
 import com.getir.readingisgood.service.OrderService;
@@ -24,7 +25,7 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<OrderPlaceResponseDto> placeOrder(@RequestBody @Valid OrderRequestDto orderRequestDto)
-            throws CustomerNotFoundException, NoStockException {
+            throws CustomerNotFoundException, NoStockException, InvalidRequestException {
         OrderPlaceResponseDto dto = orderService.placeOrder(orderRequestDto);
         return new ResponseEntity<>(dto, HttpStatus.ACCEPTED);
     }
@@ -37,12 +38,12 @@ public class OrderController {
 
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<List<OrderDetailResponseDto>> getCustomerOrders(@PathVariable Long customerId) {
-        return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(orderService.findByCustomerId(customerId), HttpStatus.ACCEPTED);
     }
 
     @GetMapping
     public ResponseEntity<List<OrderDetailResponseDto>> getOrders() {
-        return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(orderService.findAll(), HttpStatus.ACCEPTED);
     }
 
 
