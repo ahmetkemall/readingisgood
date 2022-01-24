@@ -31,17 +31,17 @@ Install Maven
 
 ```
 
+```bash
+## To run mongodb and the project
+> docker compose up -d
+```
+
 ```
 ## Running the tests
 
 mvn test
 ```
 
-
-```bash
-## To run mongodb and the project
-> docker compose up -d
-```
 
 Then, import postman collection to see possible request
 
