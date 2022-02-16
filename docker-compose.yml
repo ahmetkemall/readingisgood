@@ -1,0 +1,23 @@
+version: "3.8"
+
+networks:
+  backend:
+    external: false
+    name: backend
+services:
+  readingisgooddb:
+    networks:
+      - backend
+    image: mongo:latest
+    container_name: readingisgooddb
+    ports:
+      - 27017:27017
+  readingisgood:
+    networks:
+      - backend
+    image: readingisgood
+    container_name: readingisgood
+    ports:
+      - 8080:8080
+    links:
+      - readingisgooddb
