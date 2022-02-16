@@ -26,8 +26,7 @@ Install Maven
 ```
 ## To build the project
 
-1. mvn clean install
-2. docker image build -t readingisgood .
+1. mvn -DskipTests=true  package
 
 ```
 
@@ -35,13 +34,6 @@ Install Maven
 ## To run mongodb and the project
 > docker compose up -d
 ```
-
-```
-## Running the tests
-
-mvn test
-```
-
 
 Then, import postman collection to see possible request
 
