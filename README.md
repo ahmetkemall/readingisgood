@@ -1,4 +1,4 @@
-# Getir ReadingIsGoodApp Assesment
+# Bookstore app
 
 ### Problem Statement:
 
@@ -44,8 +44,3 @@ mvn test
 
 
 Then, import postman collection to see possible request
-
-
-## Authors
-
-Ahmet Kemal Akargül
